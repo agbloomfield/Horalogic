@@ -1,0 +1,26 @@
+CREATE DATABASE Horalogic;
+GRANT ALL ON Horalogic.* TO 'hora'@'localhost' IDENTIFIED BY '7KrNhTAdLIlog01X';
+GRANT ALL ON Horalogic.* TO 'hora'@'127.0.0.1' IDENTIFIED BY '7KrNhTAdLIlog01X';
+
+USE Horalogic; (Or select misc in phpMyAdmin)
+
+CREATE TABLE volunteers (
+   volunteer_id INTEGER NOT NULL
+     AUTO_INCREMENT KEY,
+   firstname VARCHAR(255),
+   lastname VARCHAR(255),
+   email VARCHAR(128),
+   INDEX(email)
+) ENGINE=InnoDB CHARSET=utf8;
+
+CREATE TABLE users (
+   user_id INTEGER NOT NULL
+     AUTO_INCREMENT KEY,
+   name VARCHAR(128),
+   email VARCHAR(128),
+   password VARCHAR(128),
+   INDEX(email)
+) ENGINE=InnoDB CHARSET=utf8;
+
+agbloom@umich.edu
+GoBlue76
