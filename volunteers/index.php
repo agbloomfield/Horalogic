@@ -60,6 +60,8 @@ if ( $stmt->rowCount() > 0 ) {
     echo(' | ');
     echo('<a href="../events/index.php">Events</a>');
     echo(' | ');
+    echo('<a href="../index.php">Home</a>');
+    echo(' | ');
     echo('<a href="logout.php">Logout</a></p>');
   }
 ?>

@@ -26,12 +26,18 @@ if ( ! isset ($_SESSION['name']) ) {
   echo('<a href="login.php">Please log in</a>');
   echo("</p>");
 } else {
-echo('<p><a href="logout.php">Logout</a></p>');
+  echo('<p><a href="add.php">Add New Event</a>');
+  echo(' | ');
+  echo('<a href="../events/index.php">Events</a>');
+  echo(' | ');
+  echo('<a href="../index.php">Home</a>');
+  echo(' | ');
+  echo('<a href="logout.php">Logout</a></p>');
 }
-$stmt = $pdo->query("SELECT event_name, event_time, event_id FROM events");
+$stmt = $pdo->query("SELECT event_name, event_date, event_id FROM events");
 if ( $stmt->rowCount() > 0 ) {
     echo('<table border="1">'."\n");
-    echo '<tr><th>Name</th><th>Headline</th>';
+    echo '<tr><th>Event Name</th><th>Event Date</th>';
     if ( isset ($_SESSION['name']) ) {
       echo '<th>Action</th>';
     }
@@ -39,9 +45,9 @@ if ( $stmt->rowCount() > 0 ) {
     while ( $row = $stmt->fetch(PDO::FETCH_ASSOC) ) {
         echo "<tr><td>";
         echo '<a href="view.php?profile_id='.$row['profile_id'].'">',
-              htmlentities($row['first_name'].' '.$row['last_name']), '</a>';
+              htmlentities($row['event_name']), '</a>';
         echo("</td><td>");
-        echo(htmlentities($row['headline']));
+        echo(htmlentities($row['event_date']));
         echo("</td>");
         if ( isset ($_SESSION['name']) ) {
           echo "<td>";
@@ -58,6 +64,9 @@ if ( $stmt->rowCount() > 0 ) {
   }
   if ( isset ($_SESSION['name']) ) {
     echo('<p><a href="add.php">Add New Event</a></p>');
+  }
+  if ( isset ($_SESSION['name']) ) {
+
   }
 ?>
 </div>

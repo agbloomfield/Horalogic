@@ -98,9 +98,9 @@ if ( isset($_SESSION['error']) ) {
 } ?>
 <form method="post">
 <p>First Name:
-<input type="text" name="firstname" size="60"/></p>
+<input type="text" name="event_name" size="60"/></p>
 <p>Last Name:
-<input type="text" name="lastname" size="60"/></p>
+<input type="date" name="event_date" /></p>
 <p>Email:
 <input type="text" name="email" size="30"/></p>
 <p>Headline:<br/>
