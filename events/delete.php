@@ -45,7 +45,7 @@ if ( $row === false ) {
 <?php require_once "../head.php"; ?>
 </head>
 <div class="container">
-<h1>Confirm: Deleting Profile</h1>
+<h1>Confirm: Deleting Event</h1>
   <form method="post" action="delete.php">
   <p>Event Name: <?= htmlentities($row['event_name']) ?></p>
   <p>Event Time: <?= htmlentities($row['event_time']) ?></p>
