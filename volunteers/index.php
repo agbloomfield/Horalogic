@@ -14,11 +14,11 @@ session_start();
 
 <?php
 if ( isset($_SESSION['error']) ) {
-    echo '<p style="color:red">'.$_SESSION['error']."</p>\n";
+    echo '<div class="alert alert-danger">'.$_SESSION['error']."</div>\n";
     unset($_SESSION['error']);
 }
 if ( isset($_SESSION['success']) ) {
-    echo '<p style="color:green">'.$_SESSION['success']."</p>\n";
+    echo '<div class="alert alert-success">'.$_SESSION['success']."</div>\n";
     unset($_SESSION['success']);
 }
 if ( ! isset ($_SESSION['name']) ) {
@@ -44,7 +44,7 @@ if ( $stmt->rowCount() > 0 ) {
     echo '</tr>';
     while ( $row = $stmt->fetch(PDO::FETCH_ASSOC) ) {
         echo "<tr><td>";
-        echo '<a href="view.php?vounteer_id='.$row['volunteer_id'].'">',
+        echo '<a href="view.php?volunteer_id='.$row['volunteer_id'].'">',
               htmlentities($row['first_name'].' '.$row['last_name']), '</a>';
         echo("</td><td>");
         echo '<a href="mailto:', htmlentities($row['email']), '">', htmlentities($row['email']), '</a>';
