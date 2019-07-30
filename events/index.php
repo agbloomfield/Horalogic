@@ -53,8 +53,8 @@ if ( $stmt->rowCount() > 0 ) {
         echo("</td>");
         if ( isset ($_SESSION['name']) ) {
           echo "<td>";
-          echo('<a href="edit.php?profile_id='.$row['profile_id'].'">Edit</a> / ');
-          echo('<a href="delete.php?profile_id='.$row['profile_id'].'">Delete</a>');
+          echo('<a href="edit.php?event_id='.$row['event_id'].'">Edit</a> / ');
+          echo('<a href="delete.php?event_id='.$row['event_id'].'">Delete</a>');
           echo "</td>";
         }
         echo "</tr>\n";
