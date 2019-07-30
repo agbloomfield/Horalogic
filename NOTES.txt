@@ -22,5 +22,11 @@ CREATE TABLE users (
    INDEX(email)
 ) ENGINE=InnoDB CHARSET=utf8;
 
+CREATE TABLE events (
+    event_id INTEGER NOT NULL AUTO_INCREMENT KEY,
+    event_name VARCHAR(128),
+    event_date datetime
+) ENGINE=InnoDB CHARSET=utf8;
+
 agbloom@umich.edu
 GoBlue76

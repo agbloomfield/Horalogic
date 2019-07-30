@@ -17,12 +17,11 @@ if ( isset($_POST['cancel']) ) {
 }
 
 //Handle POST data
-if ( isset($_POST['firstname']) && isset($_POST['lastname']) &&
-     isset($_POST['email']) && isset($_POST['headline']) &&
-     isset($_POST['summary']) ) {
+if ( isset($_POST['first_name']) && isset($_POST['last_name']) &&
+     isset($_POST['email']) && isset($_POST['notes']) ) {
 
-  if ( ( strlen($_POST['firstname']) < 1) ||
-     ( strlen($_POST['lastname']) < 1) ||
+  if ( ( strlen($_POST['first_name']) < 1) ||
+     ( strlen($_POST['last_name']) < 1) ||
      ( strlen($_POST['email']) < 1) ) {
     $_SESSION['error'] = "Name and email are required.";
     header("Location: ./add.php");
@@ -35,41 +34,24 @@ if ( isset($_POST['firstname']) && isset($_POST['lastname']) &&
     return;
   }
 
-  // code to validate education entries
-  $msg = validateEdu();
-  if ( is_string($msg) ) {
-    $_SESSION['error'] = $msg;
-    header("Location: ./add.php");
-    return;
-  }
-
-  // code to validate position entries
-  $msg = validatePos();
-  if ( is_string($msg) ) {
-    $_SESSION['error'] = $msg;
-    header("Location: ./add.php");
-    return;
-  }
-
   $sql = "INSERT INTO volunteers
-         (user_id, first_name, last_name, email)
-         VALUES ( :uid, :fn, :ln, :em)";
+         (user_id, first_name, last_name, email, phone, notes)
+         VALUES ( :uid, :fn, :ln, :em, :ph, :no)";
   $stmt = $pdo->prepare($sql);
   $stmt->execute(array(
     ':uid' => $_SESSION['user_id'],
     ':fn' => $_POST['first_name'],
     ':ln' => $_POST['last_name'],
-    ':em' => $_POST['email'])
+    ':em' => $_POST['email'],
+    ':ph' => $_POST['phone'],
+    ':no' => $_POST['notes'])
   );
-  $profile_id = $pdo->lastInsertId();
+  $volunteer_id = $pdo->lastInsertId();
 
   // insert the education entries
-  insertEducations($pdo, $profile_id);
+  insertEducations($pdo, $volunteer_id);
 
-  // insert the position entries
-  insertPositions($pdo, $profile_id);
-
-  $_SESSION['success'] = "Record added";
+  $_SESSION['success'] = "Volunteer added";
   header('Location: ./index.php');
   return;
 }
@@ -94,9 +76,9 @@ if ( isset($_SESSION['error']) ) {
 } ?>
 <form method="post">
 <p>First Name:
-<input type="text" name="firstname" size="60"/></p>
+<input type="text" name="first_name" size="60"/></p>
 <p>Last Name:
-<input type="text" name="lastname" size="60"/></p>
+<input type="text" name="last_name" size="60"/></p>
 <p>Email:
 <input type="text" name="email" size="30"/></p>
 <p>Phone:<br/>
@@ -113,49 +95,7 @@ Event Types: <input type="submit" id="addEdu" value="+">
 <input type="submit" name="cancel" value="Cancel">
 </p>
 </form>
-<script>
-countEdu = 0;
-// http://stackoverflow.com/questions/17650776/add-remove-html-inside-div-using-javascript
-$(document).ready(function(){
-    window.console && console.log('Document ready called');
-    $('#addPos').click(function(event){
-        // http://api.jquery.com/event.preventdefault/
-        event.preventDefault();
-        if ( countPos >= 9 ) {
-            alert("Maximum of nine position entries exceeded");
-            return;
-        }
-        countPos++;
-        window.console && console.log("Adding position "+countPos);
-        $('#position_fields').append(
-            '<div id="position'+countPos+'"> \
-            <p>Year: <input type="text" name="year'+countPos+'" value="" /> \
-            <input type="button" value="-" \
-                onclick="$(\'#position'+countPos+'\').remove();return false;"></p> \
-            <textarea name="desc'+countPos+'" rows="8" cols="80"></textarea>\
-            </p></div>');
-    });
-    $('#addEdu').click(function(event){
-        // http://api.jquery.com/event.preventdefault/
-        event.preventDefault();
-        if ( countEdu >= 9 ) {
-            alert("Maximum of nine education entries exceeded");
-            return;
-        }
-        countEdu++;
-        window.console && console.log("Adding education "+countEdu);
 
-        // Grab HTML with links and insert into DOM
-        var source = $("#edu-template").html();
-        $('#edu_fields').append(source.replace(/@COUNT@/g,countEdu));
-
-        // Add the event handler to the new entries
-        $('.school').autocomplete({
-          source: "school.php"
-        });
-    });
-});
-</script>
 <!-- HTML with Substitution -->
 <script id="edu-template" type="text">
   <div id="edu@COUNT@">

@@ -26,26 +26,35 @@ if ( ! isset ($_SESSION['name']) ) {
   echo('<a href="login.php">Please log in</a>');
   echo("</p>");
 } else {
-echo('<p><a href="logout.php">Logout</a></p>');
+    echo('<p><a href="add.php">Add New Volunteer</a>');
+    echo(' | ');
+    echo('<a href="../events/index.php">Events</a>');
+    echo(' | ');
+    echo('<a href="../index.php">Home</a>');
+    echo(' | ');
+    echo('<a href="logout.php">Logout</a></p>');
 }
-$stmt = $pdo->query("SELECT firstname, lastname, volunteer_id FROM volunteers");
+$stmt = $pdo->query("SELECT first_name, last_name, volunteer_id, user_id, email, phone FROM volunteers");
 if ( $stmt->rowCount() > 0 ) {
     echo('<table border="1">'."\n");
-    echo '<tr><th>Name</th><th>Headline</th>';
+    echo '<tr><th>Name</th><th>Email</th><th>Phone</th>';
     if ( isset ($_SESSION['name']) ) {
       echo '<th>Action</th>';
     }
     echo '</tr>';
     while ( $row = $stmt->fetch(PDO::FETCH_ASSOC) ) {
         echo "<tr><td>";
-        echo '<a href="view.php?profile_id='.$row['profile_id'].'">',
+        echo '<a href="view.php?vounteer_id='.$row['volunteer_id'].'">',
               htmlentities($row['first_name'].' '.$row['last_name']), '</a>';
         echo("</td><td>");
+        echo '<a href="mailto:', htmlentities($row['email']), '">', htmlentities($row['email']), '</a>';
+        echo("</td><td>");
+        echo htmlentities($row['phone']);
         echo("</td>");
         if ( isset ($_SESSION['name']) ) {
           echo "<td>";
-          echo('<a href="edit.php?profile_id='.$row['profile_id'].'">Edit</a> / ');
-          echo('<a href="delete.php?profile_id='.$row['profile_id'].'">Delete</a>');
+          echo('<a href="edit.php?volunteer_id='.$row['volunteer_id'].'">Edit</a> / ');
+          echo('<a href="delete.php?volunteer_id='.$row['volunteer_id'].'">Delete</a>');
           echo "</td>";
         }
         echo "</tr>\n";
@@ -55,15 +64,7 @@ if ( $stmt->rowCount() > 0 ) {
   } else {
     echo('No volunteers found');
   }
-  if ( isset ($_SESSION['name']) ) {
-    echo('<p><a href="add.php">Add New Volunteer</a>');
-    echo(' | ');
-    echo('<a href="../events/index.php">Events</a>');
-    echo(' | ');
-    echo('<a href="../index.php">Home</a>');
-    echo(' | ');
-    echo('<a href="logout.php">Logout</a></p>');
-  }
+
 ?>
 </div>
 </body>

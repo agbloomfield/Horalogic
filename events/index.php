@@ -28,26 +28,28 @@ if ( ! isset ($_SESSION['name']) ) {
 } else {
   echo('<p><a href="add.php">Add New Event</a>');
   echo(' | ');
-  echo('<a href="../events/index.php">Events</a>');
+  echo('<a href="../volunteers/index.php">Volunteers</a>');
   echo(' | ');
   echo('<a href="../index.php">Home</a>');
   echo(' | ');
   echo('<a href="logout.php">Logout</a></p>');
 }
-$stmt = $pdo->query("SELECT event_name, event_date, event_id FROM events");
+$stmt = $pdo->query("SELECT event_name, event_date, event_time, event_id FROM events");
 if ( $stmt->rowCount() > 0 ) {
     echo('<table border="1">'."\n");
-    echo '<tr><th>Event Name</th><th>Event Date</th>';
+    echo '<tr><th>Event Name</th><th>Event Date</th><th>Event Time</th>';
     if ( isset ($_SESSION['name']) ) {
       echo '<th>Action</th>';
     }
     echo '</tr>';
     while ( $row = $stmt->fetch(PDO::FETCH_ASSOC) ) {
         echo "<tr><td>";
-        echo '<a href="view.php?profile_id='.$row['profile_id'].'">',
+        echo '<a href="view.php?event_id='.$row['event_id'].'">',
               htmlentities($row['event_name']), '</a>';
         echo("</td><td>");
         echo(htmlentities($row['event_date']));
+        echo("</td><td>");
+        echo(htmlentities($row['event_time']));
         echo("</td>");
         if ( isset ($_SESSION['name']) ) {
           echo "<td>";
