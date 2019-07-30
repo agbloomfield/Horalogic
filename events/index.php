@@ -37,7 +37,7 @@ if ( ! isset ($_SESSION['name']) ) {
 
 $stmt = $pdo->query("SELECT event_name, event_date, event_time, event_id FROM events");
 if ( $stmt->rowCount() > 0 ) {
-    echo('<table border="1">'."\n");
+    echo('<table class="table">'."\n");
     echo '<tr><th>Event Name</th><th>Event Date</th><th>Event Time</th>';
     if ( isset ($_SESSION['name']) ) {
       echo '<th>Action</th>';

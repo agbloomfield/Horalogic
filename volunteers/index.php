@@ -36,7 +36,7 @@ if ( ! isset ($_SESSION['name']) ) {
 }
 $stmt = $pdo->query("SELECT first_name, last_name, volunteer_id, user_id, email, phone FROM volunteers");
 if ( $stmt->rowCount() > 0 ) {
-    echo('<table border="1">'."\n");
+    echo('<table class="table">'."\n");
     echo '<tr><th>Name</th><th>Email</th><th>Phone</th>';
     if ( isset ($_SESSION['name']) ) {
       echo '<th>Action</th>';
