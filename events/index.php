@@ -10,15 +10,15 @@ session_start();
 </head>
 <body>
 <div class="container">
-<h1>Welcome to Horalogic</h1>
+<h1>Horalogic</h1>
 
 <?php
 if ( isset($_SESSION['error']) ) {
-    echo '<p style="color:red">'.$_SESSION['error']."</p>\n";
+    echo '<div class="alert alert-danger">'.$_SESSION['error']."</div>\n";
     unset($_SESSION['error']);
 }
 if ( isset($_SESSION['success']) ) {
-    echo '<p style="color:green">'.$_SESSION['success']."</p>\n";
+    echo '<div class="alert alert-success">'.$_SESSION['success']."</div>\n";
     unset($_SESSION['success']);
 }
 if ( ! isset ($_SESSION['name']) ) {
@@ -65,12 +65,7 @@ if ( $stmt->rowCount() > 0 ) {
   } else {
     echo('No events found');
   }
-  if ( isset ($_SESSION['name']) ) {
-    echo('<p><a href="add.php">Add New Event</a></p>');
-  }
-  if ( isset ($_SESSION['name']) ) {
 
-  }
 ?>
 </div>
 </body>

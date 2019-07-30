@@ -10,7 +10,7 @@ session_start();
 </head>
 <body>
 <div class="container">
-<h1>Welcome to Horalogic</h1>
+<h1>Horalogic</h1>
 
 <?php
 if ( isset($_SESSION['error']) ) {

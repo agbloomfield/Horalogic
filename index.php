@@ -9,8 +9,8 @@ session_start();
 <title>Horalogic</title>
 </head>
 <body>
-<div class="container">
-<h1>Welcome to Horalogic</h1>
+<div class="jumbotron jumbotro-fluid">
+<h1 class="display-4">Welcome to Horalogic</h1>
 
 <?php
 if ( isset($_SESSION['error']) ) {
