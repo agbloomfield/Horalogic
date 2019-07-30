@@ -34,6 +34,7 @@ if ( ! isset ($_SESSION['name']) ) {
   echo(' | ');
   echo('<a href="logout.php">Logout</a></p>');
 }
+
 $stmt = $pdo->query("SELECT event_name, event_date, event_time, event_id FROM events");
 if ( $stmt->rowCount() > 0 ) {
     echo('<table border="1">'."\n");

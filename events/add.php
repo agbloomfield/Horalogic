@@ -28,7 +28,7 @@ if ( isset($_POST['event_name']) && isset($_POST['event_date']) &&
 
   $sql = "INSERT INTO events
          (event_name, event_date, event_time)
-         VALUES ( :eid, :en, :ed, :et)";
+         VALUES (:en, :ed, :et)";
   $stmt = $pdo->prepare($sql);
   $stmt->execute(array(
     ':en' => $_POST['event_name'],
