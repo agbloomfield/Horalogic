@@ -3,24 +3,32 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:8889
--- Generation Time: Jul 30, 2019 at 03:24 PM
+-- Generation Time: Jul 31, 2019 at 12:03 PM
 -- Server version: 5.7.25
 -- PHP Version: 7.3.1
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
 
-
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
-
 --
 -- Database: `Horalogic`
 --
 CREATE DATABASE IF NOT EXISTS `Horalogic` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
 USE `Horalogic`;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `assignments`
+--
+
+CREATE TABLE `assignments` (
+  `assign_id` int(11) NOT NULL,
+  `volunteer_id` int(11) NOT NULL,
+  `event_id` int(11) NOT NULL,
+  `role_id` int(11) NOT NULL,
+  `notes` text
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -35,13 +43,17 @@ CREATE TABLE `events` (
   `event_time` time DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+-- --------------------------------------------------------
+
 --
--- Dumping data for table `events`
+-- Table structure for table `roles`
 --
 
-INSERT INTO `events` (`event_id`, `event_name`, `event_date`, `event_time`) VALUES
-(1, 'Mass', '2019-08-04', '08:00:00'),
-(2, 'Mass', '2019-08-11', '08:00:00');
+CREATE TABLE `roles` (
+  `role_id` int(11) NOT NULL,
+  `role_name` varchar(128) DEFAULT NULL,
+  `notes` text
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -55,13 +67,6 @@ CREATE TABLE `users` (
   `email` varchar(128) DEFAULT NULL,
   `password` varchar(128) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Dumping data for table `users`
---
-
-INSERT INTO `users` (`user_id`, `name`, `email`, `password`) VALUES
-(1, 'Andy Bloomfield', 'agbloom@umich.edu', '1a89387e85ea33cbeaf3d22315338b4e');
 
 -- --------------------------------------------------------
 
@@ -80,22 +85,29 @@ CREATE TABLE `volunteers` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `volunteers`
---
-
-INSERT INTO `volunteers` (`volunteer_id`, `user_id`, `first_name`, `last_name`, `email`, `phone`, `notes`) VALUES
-(1, 1, 'Andy', 'Bloomfield', 'agb@horalogic.com', '734-934-9753', 'test'),
-(2, 1, 'Andy', 'Bloomfield', 'agb@horalogic.com', '734-934-9753', 'testing');
-
---
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `assignments`
+--
+ALTER TABLE `assignments`
+  ADD PRIMARY KEY (`assign_id`),
+  ADD KEY `assign_ibfk_1` (`volunteer_id`),
+  ADD KEY `assign_ibfk_2` (`event_id`),
+  ADD KEY `assign_ibfk_3` (`role_id`);
 
 --
 -- Indexes for table `events`
 --
 ALTER TABLE `events`
   ADD PRIMARY KEY (`event_id`);
+
+--
+-- Indexes for table `roles`
+--
+ALTER TABLE `roles`
+  ADD PRIMARY KEY (`role_id`);
 
 --
 -- Indexes for table `users`
@@ -116,33 +128,49 @@ ALTER TABLE `volunteers`
 --
 
 --
+-- AUTO_INCREMENT for table `assignments`
+--
+ALTER TABLE `assignments`
+  MODIFY `assign_id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `events`
 --
 ALTER TABLE `events`
-  MODIFY `event_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `event_id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `roles`
+--
+ALTER TABLE `roles`
+  MODIFY `role_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `volunteers`
 --
 ALTER TABLE `volunteers`
-  MODIFY `volunteer_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `volunteer_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- Constraints for dumped tables
 --
 
 --
+-- Constraints for table `assignments`
+--
+ALTER TABLE `assignments`
+  ADD CONSTRAINT `assign_ibfk_1` FOREIGN KEY (`volunteer_id`) REFERENCES `volunteers` (`volunteer_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `assign_ibfk_2` FOREIGN KEY (`event_id`) REFERENCES `events` (`event_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `assign_ibfk_3` FOREIGN KEY (`role_id`) REFERENCES `roles` (`role_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
 -- Constraints for table `volunteers`
 --
 ALTER TABLE `volunteers`
   ADD CONSTRAINT `volunteer_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

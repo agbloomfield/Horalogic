@@ -7,8 +7,8 @@ USE Horalogic; (Or select misc in phpMyAdmin)
 CREATE TABLE volunteers (
    volunteer_id INTEGER NOT NULL
      AUTO_INCREMENT KEY,
-   firstname VARCHAR(255),
-   lastname VARCHAR(255),
+   first_name VARCHAR(255),
+   last_name VARCHAR(255),
    email VARCHAR(128),
    INDEX(email)
 ) ENGINE=InnoDB CHARSET=utf8;
@@ -27,6 +27,21 @@ CREATE TABLE events (
     event_name VARCHAR(128),
     event_date datetime
 ) ENGINE=InnoDB CHARSET=utf8;
+
+CREATE TABLE Profile (
+  profile_id INTEGER NOT NULL AUTO_INCREMENT,
+  user_id INTEGER NOT NULL,
+  first_name TEXT,
+  last_name TEXT,
+  email TEXT,
+  headline TEXT,
+  summary TEXT,
+  PRIMARY KEY(profile_id),
+  CONSTRAINT profile_ibfk_2
+  FOREIGN KEY (user_id)
+  REFERENCES users (user_id)
+  ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 agbloom@umich.edu
 GoBlue76
