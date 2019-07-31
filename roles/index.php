@@ -26,37 +26,36 @@ if ( ! isset ($_SESSION['name']) ) {
   echo('<a href="login.php">Please log in</a>');
   echo("</p>");
 } else {
-    echo('<p><a href="add.php">Add New Volunteer</a>');
-    echo(' | ');
-    echo('<a href="../events/index.php">Events</a>');
-    echo(' | ');
-    echo('<a href="../roles/index.php">Roles</a>');
-    echo(' | ');
-    echo('<a href="../index.php">Home</a>');
-    echo(' | ');
-    echo('<a href="../logout.php">Logout</a></p>');
+  echo('<p><a href="add.php">Add New Role</a>');
+  echo(' | ');
+  echo('<a href="../volunteers/index.php">Volunteers</a>');
+  echo(' | ');
+  echo('<a href="../events/index.php">Events</a>');
+  echo(' | ');
+  echo('<a href="../index.php">Home</a>');
+  echo(' | ');
+  echo('<a href="../logout.php">Logout</a></p>');
 }
-$stmt = $pdo->query("SELECT first_name, last_name, volunteer_id, user_id, email, phone FROM volunteers");
+
+$stmt = $pdo->query("SELECT role_id, role_name, notes FROM roles");
 if ( $stmt->rowCount() > 0 ) {
     echo('<table class="table">'."\n");
-    echo '<tr><th>Name</th><th>Email</th><th>Phone</th>';
+    echo '<tr><th>Role Name</th><th>Notes</th>';
     if ( isset ($_SESSION['name']) ) {
       echo '<th>Action</th>';
     }
     echo '</tr>';
     while ( $row = $stmt->fetch(PDO::FETCH_ASSOC) ) {
         echo "<tr><td>";
-        echo '<a href="view.php?volunteer_id='.$row['volunteer_id'].'">',
-              htmlentities($row['first_name'].' '.$row['last_name']), '</a>';
+        echo '<a href="view.php?role_id='.$row['role_id'].'">',
+              htmlentities($row['role_name']), '</a>';
         echo("</td><td>");
-        echo '<a href="mailto:', htmlentities($row['email']), '">', htmlentities($row['email']), '</a>';
-        echo("</td><td>");
-        echo htmlentities($row['phone']);
+        echo(htmlentities($row['notes']));
         echo("</td>");
         if ( isset ($_SESSION['name']) ) {
           echo "<td>";
-          echo('<a href="edit.php?volunteer_id='.$row['volunteer_id'].'">Edit</a> / ');
-          echo('<a href="delete.php?volunteer_id='.$row['volunteer_id'].'">Delete</a>');
+          echo('<a href="edit.php?role_id='.$row['role_id'].'">Edit</a> / ');
+          echo('<a href="delete.php?role_id='.$row['role_id'].'">Delete</a>');
           echo "</td>";
         }
         echo "</tr>\n";
@@ -64,7 +63,7 @@ if ( $stmt->rowCount() > 0 ) {
     echo('</table>');
     echo('<p></p>');
   } else {
-    echo('No volunteers found');
+    echo('No roles found');
   }
 
 ?>

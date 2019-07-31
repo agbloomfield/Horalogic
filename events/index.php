@@ -30,9 +30,11 @@ if ( ! isset ($_SESSION['name']) ) {
   echo(' | ');
   echo('<a href="../volunteers/index.php">Volunteers</a>');
   echo(' | ');
+  echo('<a href="../roles/index.php">Roles</a>');
+  echo(' | ');
   echo('<a href="../index.php">Home</a>');
   echo(' | ');
-  echo('<a href="logout.php">Logout</a></p>');
+  echo('<a href="../logout.php">Logout</a></p>');
 }
 
 $stmt = $pdo->query("SELECT event_name, event_date, event_time, event_id FROM events");
