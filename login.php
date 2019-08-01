@@ -65,6 +65,8 @@ if ( isset($_POST['email']) && isset($_POST['pass']) ) {
 <title>Horalogic login</title>
 </head>
 <body>
+  <script src="https://apis.google.com/js/platform.js" async defer></script>
+  <meta name="google-signin-client_id" content="791705139138-f7ete57d1usao71jsl5ic3v6plefs3og.apps.googleusercontent.com">
 <div class="container">
 <h1>Horalogic Log In</h1>
 <?php
@@ -84,7 +86,7 @@ if ( isset($_SESSION['error']) ) {
 <input type="submit" onclick="return doValidate();" value="Log In">
 <input type="submit" name="cancel" value="Cancel">
 </form>
-
+<div class="g-signin2" data-onsuccess="onSignIn"></div>
 <script>
 function doValidate() {
     console.log('Validating...');
