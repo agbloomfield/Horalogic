@@ -16,58 +16,54 @@ if ( isset($_POST['cancel']) ) {
 }
 
 //Handle POST data
-if ( isset($_POST['event_name']) && isset($_POST['event_date']) &&
+if ( isset($_POST['role_name']) && isset($_POST['event_date']) &&
      isset($_POST['event_time']) ) {
 
-  if ( ( strlen($_POST['event_name']) < 1) ||
+  if ( ( strlen($_POST['role_name']) < 1) ||
      ( strlen($_POST['event_date']) < 1) ||
      ( strlen($_POST['event_time']) < 1) ) {
     $_SESSION['error'] = "Name and Date/Time are required.";
-    header("Location: edit.php?event_id".$_POST['event_id']);
+    header("Location: edit.php?role_id".$_POST['role_id']);
     return;
   }
 
 
   $sql = "UPDATE events
-         SET event_name = :en, event_date = :ed,
-         event_time = :et
-         WHERE event_id = :eid";
+         SET role_name = :rn, notes = :no
+         WHERE role_id = :rid";
   $stmt = $pdo->prepare($sql);
   $stmt->execute(array(
-    ':eid' => $_POST['event_id'],
-    ':en' => $_POST['event_name'],
-    ':ed' => $_POST['event_date'],
-    ':et' => $_POST['event_time'])
+    ':rid' => $_POST['role_id'],
+    ':rn' => $_POST['role_name'],
+    ':no' => $_POST['notes'])
   );
-  $event_id = $pdo->lastInsertId();
+  $role_id = $pdo->lastInsertId();
 
   // insert the education entries
-  insertEducations($pdo, $event_id);
+  insertEducations($pdo, $role_id);
 
-  $_SESSION['success'] = "Event updated";
+  $_SESSION['success'] = "Role updated";
   header('Location: ./index.php');
   return;
 }
 
-if ( ! isset($_GET['event_id']) ) {
-  $_SESSION['error'] = "Missing event_id";
+if ( ! isset($_GET['role_id']) ) {
+  $_SESSION['error'] = "Missing role_id";
   header('Location: index.php');
   return;
 }
 
-$stmt = $pdo->prepare("SELECT * FROM events WHERE event_id = :xyz");
-$stmt->execute(array(":xyz" => $_GET['event_id']));
+$stmt = $pdo->prepare("SELECT * FROM roles WHERE role_id = :xyz");
+$stmt->execute(array(":xyz" => $_GET['role_id']));
 $row = $stmt->fetch(PDO::FETCH_ASSOC);
 if ( $row === false ) {
-  $_SESSION['error'] = 'Bad value for event_id';
+  $_SESSION['error'] = 'Bad value for role_id';
   header('Location: index.php');
   return;
 }
 
-$en = htmlentities($row['event_name']);
-$ed = htmlentities($row['event_date']);
-$et = htmlentities($row['event_time']);
-$eid = $row[('event_id')];
+$rn = htmlentities($row['role_name']);
+$rid = $row[('role_id')];
 
 ?>
 
@@ -88,15 +84,14 @@ if ( isset($_SESSION['error']) ) {
     unset($_SESSION['error']);
 } ?>
 <form method="post">
-<p>Event Name:
-<input type="text" name="event_name" size="60" value="<?= $en ?>"/></p>
-<p>Event Date:
-<input type="date" name="event_date" size="60" value="<?= $ed ?>"/></p>
-<p>Event Time:
-<input type="time" name="event_time" size="30" value="<?= $et ?>"/></p>
+<p>Role Name:
+<input type="text" name="role_name" size="60" value="<?= $rn ?>"/></p>
+<p>Notes:<br/>
+<textarea name="notes" rows="8" cols="80"><?= $no ?></textarea>
+<p>
 </p>
 <p>
-<input type="hidden" name="event_id" value="<?= $eid ?>"/>
+<input type="hidden" name="role_id" value="<?= $rid ?>"/>
 <input type="submit" value="Save">
 <input type="submit" name="cancel" value="Cancel">
 </p>

@@ -27,7 +27,7 @@ if ( isset($_POST['role_name']) ) {
 
   $sql = "INSERT INTO roles
          (role_name, notes)
-         VALUES (:en, :no)";
+         VALUES (:rn, :no)";
   $stmt = $pdo->prepare($sql);
   $stmt->execute(array(
     ':rn' => $_POST['role_name'],
