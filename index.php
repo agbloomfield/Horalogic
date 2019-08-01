@@ -29,6 +29,8 @@ if ( isset ($_SESSION['name']) ) {
     echo(' | ');
     echo('<a href="events/index.php">Roles</a>');
     echo(' | ');
+    echo('<a href="assignments/index.php">Assignments</a>');
+    echo(' | ');
     echo('<a href="logout.php">Logout</a></p>');
 } else {
   echo "<p>";

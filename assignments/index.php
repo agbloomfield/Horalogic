@@ -26,7 +26,9 @@ if ( ! isset ($_SESSION['name']) ) {
   echo('<a href="login.php">Please log in</a>');
   echo("</p>");
 } else {
-    echo('<p><a href="add.php">Add New Volunteer</a>');
+    echo('<p><a href="add.php">Add Assignment</a>');
+    echo(' | ');
+    echo('<a href="volunteers/index.php">Volunteers</a>');
     echo(' | ');
     echo('<a href="../events/index.php">Events</a>');
     echo(' | ');
