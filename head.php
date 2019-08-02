@@ -10,4 +10,4 @@
 <script src="https://apis.google.com/js/platform.js" async defer></script>
 <meta name="google-signin-client_id" content="791705139138-f7ete57d1usao71jsl5ic3v6plefs3og.apps.googleusercontent.com">
 
-<link href="css/starter-template.css" rel="stylesheet">
+<link href="../css/starter-template.css" rel="stylesheet">
